@@ -1,0 +1,163 @@
+openapi: 3.0.0
+info:
+  title: Your API Documentation
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/buy:
+    post:
+      summary: Buy shares
+      tags:
+        - Buy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                portfolioId:
+                  type: integer
+                shareSymbol:
+                  type: string
+                price:
+                  type: number
+      responses:
+        '200':
+          description: Successful buy operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Insufficient stocks for buying or other validation errors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: An error occurred during the buy operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /api/sell:
+    post:
+      summary: Sell shares
+      tags:
+        - Sell
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                portfolioId:
+                  type: integer
+                shareSymbol:
+                  type: string
+      responses:
+        '200':
+          description: Successful sell operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Insufficient stocks for selling
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: An error occurred during the sell operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /api/shares/{symbol}/quantity:
+    get:
+      summary: Get total shares bought and sold for a share in a specific portfolio
+      tags:
+        - Single Symbol Quantity
+      parameters:
+        - in: path
+          name: symbol
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: portfolioId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availableQuantity:
+                    type: integer
+        '500':
+          description: An error occurred while retrieving the share quantity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /api/shares/group:
+    get:
+      summary: Group shares count by symbol
+      tags:
+        - All Symbol Quantity Group By
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shareCounts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        shareSymbol:
+                          type: string
+                        count:
+                          type: integer
+        '500':
+          description: An error occurred while retrieving the share counts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
