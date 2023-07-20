@@ -1,4 +1,4 @@
-# Eva Case Study API
+# Stock Management API
 This API provides endpoints for buying and selling shares, retrieving share quantities, and grouping share counts by symbol.
 
 ## Technologies Used
